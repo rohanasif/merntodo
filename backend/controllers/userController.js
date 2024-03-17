@@ -106,3 +106,22 @@ export const logoutUser = asyncHandler(async (req, res) => {
   res.clearCookie("token");
   res.json({ message: "User signed out successfully" });
 });
+
+// @desc Get current user
+// @route GET /api/users/me
+// @access Private
+export const getMe = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});

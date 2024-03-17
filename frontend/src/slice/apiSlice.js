@@ -62,24 +62,24 @@ export const api = createApi({
       invalidatesTags: ["todos"],
     }),
     updateTodo: builder.mutation({
-      query: (todo) => ({
-        url: `/todos/${todo._id}`,
+      query: (id) => ({
+        url: `/todos/${id}`,
         method: "PUT",
         body: todo,
       }),
       invalidatesTags: ["todos"],
     }),
     toggleTodo: builder.mutation({
-      query: (todo) => ({
-        url: `/todos/${todo._id}`,
+      query: (id) => ({
+        url: `/todos/${id}`,
         method: "PATCH",
         body: todo,
       }),
       invalidatesTags: ["todos"],
     }),
     deleteTodo: builder.mutation({
-      query: (todo) => ({
-        url: `/todos/${todo._id}`,
+      query: (id) => ({
+        url: `/todos/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["todos"],

@@ -34,10 +34,10 @@ export const createTodo = async (req, res) => {
 export const updateTodo = async (req, res) => {
   const { _id } = req.params;
   try {
-    const updatedTodo = await Todo.findByIdAndUpdate(id, req.body, {
+    const updatedTodo = await Todo.findByIdAndUpdate(_id, req.body, {
       new: true,
     });
-    res.status(200).json(updatedTodo);
+    res.status(201).json(updatedTodo);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -49,12 +49,12 @@ export const updateTodo = async (req, res) => {
 export const toggleTodo = async (req, res) => {
   const { _id } = req.params;
   try {
-    const todo = await Todo.findById(id);
+    const todo = await Todo.findById(_id);
     if (!todo) return res.status(404).json({ message: "Todo not found" });
 
     todo.completed = !todo.completed;
     const updatedTodo = await todo.save();
-    res.status(200).json(updatedTodo);
+    res.status(201).json(updatedTodo);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -66,8 +66,8 @@ export const toggleTodo = async (req, res) => {
 export const deleteTodo = async (req, res) => {
   const { _id } = req.params;
   try {
-    const deletedTodo = await Todo.findByIdAndDelete(id);
-    res.status(200).json(deletedTodo);
+    const deletedTodo = await Todo.findByIdAndDelete(_id);
+    res.status(201).json(deletedTodo);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

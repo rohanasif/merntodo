@@ -14,7 +14,7 @@ const todosSlice = createSlice({
         todos: action.payload,
       };
     },
-    createTodo: (state, action) => {
+    addTodo: (state, action) => {
       return {
         ...state,
         todos: [...state.todos, action.payload],
@@ -24,15 +24,31 @@ const todosSlice = createSlice({
       return {
         ...state,
         todos: state.todos.map((todo) => {
-          todo.id === action.payload.id? 
+          todo.id === action.payload.id
+            ? (todo.title = action.payload.title)
+            : todo;
         }),
       };
     },
-    toggleTodo: (state, action) => {},
-    deleteTodo: (state, action) => {},
+    toggleTodo: (state, action) => {
+      return {
+        ...state,
+        todos: state.todos.map((todo) => {
+          todo.id === action.payload.id
+            ? (todo.completed = !todo.completed)
+            : todo;
+        }),
+      };
+    },
+    deleteTodo: (state, action) => {
+      return {
+        ...state,
+        todos: state.todos.filter((todo) => todo.id !== action.payload),
+      };
+    },
   },
 });
 
-export const { getTodos, createTodo, updateTodo, toggleTodo, deleteTodo } =
+export const { getTodos, addTodo, updateTodo, toggleTodo, deleteTodo } =
   todosSlice.actions;
 export default todosSlice.reducer;

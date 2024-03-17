@@ -62,16 +62,16 @@ export const api = createApi({
       invalidatesTags: ["todos"],
     }),
     updateTodo: builder.mutation({
-      query: (id) => ({
-        url: `/todos/${id}`,
+      query: (todo) => ({
+        url: `/todos/${todo._id}`,
         method: "PUT",
         body: todo,
       }),
       invalidatesTags: ["todos"],
     }),
     toggleTodo: builder.mutation({
-      query: (id) => ({
-        url: `/todos/${id}`,
+      query: (todo) => ({
+        url: `/todos/${todo._id}`,
         method: "PATCH",
         body: todo,
       }),

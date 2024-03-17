@@ -5,7 +5,7 @@ import bcryptjs from "bcryptjs";
 import { validateEmail, validatePassword } from "../utils/validation.js";
 
 // @desc    Register a new user
-// @route   POST /api/users
+// @route   POST /api/v1/users
 // @access  Public
 export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -65,7 +65,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 });
 
 // @desc    Login user
-// @route   POST /api/users/login
+// @route   POST /api/v1/users/login
 // @access  Public
 export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -119,7 +119,7 @@ export const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 // @desc    Signout the user
-// @route   POST /api/users/logout
+// @route   POST /api/v1/users/logout
 // @access  Public
 export const logoutUser = asyncHandler(async (req, res) => {
   res.clearCookie("token");
@@ -152,7 +152,7 @@ export const getMe = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get user by ID
-// @route   GET /api/users/:id
+// @route   GET /api/v1/users/:id
 // @access  Private/Admin
 export const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select("-password");
@@ -166,7 +166,7 @@ export const getUserById = asyncHandler(async (req, res) => {
 });
 
 // @desc    Delete user
-// @route   DELETE /api/users/:id
+// @route   DELETE /api/v1/users/:id
 // @access  Private/Admin
 export const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);

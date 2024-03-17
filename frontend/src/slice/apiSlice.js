@@ -73,7 +73,7 @@ export const api = createApi({
       query: (todo) => ({
         url: `/todos/${todo._id}`,
         method: "PATCH",
-        body: { completed: todo.completed },
+        body: { title: todo.title, completed: todo.completed },
       }),
       invalidatesTags: ["todos"],
     }),

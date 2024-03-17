@@ -3,7 +3,7 @@ import Todo from "../models/todoModel.js";
 
 // @desc    Get all todos
 // @route   GET /api/v1/todos
-// @access  Public
+// @access  Private
 export const getTodos = asyncHandler(async (req, res) => {
   try {
     const todos = await Todo.find({ user: req.user._id });
@@ -15,7 +15,7 @@ export const getTodos = asyncHandler(async (req, res) => {
 
 // @desc    Create a new todo
 // @route   POST /api/v1/todos
-// @access  Public
+// @access  Private
 export const createTodo = asyncHandler(async (req, res) => {
   const todoData = req.body;
   todoData.user = req.user._id;
@@ -30,13 +30,14 @@ export const createTodo = asyncHandler(async (req, res) => {
 
 // @desc    Update a todo
 // @route   PUT /api/v1/todos/:id
-// @access  Public
+// @access  Private
 export const updateTodo = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
-    const updatedTodo = await Todo.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
+    const todo = await Todo.findById(id);
+    if (!todo) return res.status(404).json({ message: "Todo not found" });
+    todo.title = req.body.title;
+    const updatedTodo = await todo.save();
     res.status(201).json(updatedTodo);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -44,16 +45,17 @@ export const updateTodo = asyncHandler(async (req, res) => {
 });
 
 // @desc    Toggle a todo
-// @route   PUT /api/v1/todos/:id
-// @access  Public
+// @route   PATCH /api/v1/todos/:id
+// @access  Private
 export const toggleTodo = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
     const todo = await Todo.findById(id);
     if (!todo) return res.status(404).json({ message: "Todo not found" });
-
+    todo.title = req.body.title;
     todo.completed = !todo.completed;
     const updatedTodo = await todo.save();
+    console.log(updatedTodo);
     res.status(201).json(updatedTodo);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -62,7 +64,7 @@ export const toggleTodo = asyncHandler(async (req, res) => {
 
 // @desc    Update a todo
 // @route   DELETE /api/v1/todos/:id
-// @access  Public
+// @access  Private
 export const deleteTodo = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {

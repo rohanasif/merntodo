@@ -15,6 +15,13 @@ export const api = createApi({
     },
   }),
   endpoints: (builder) => ({
+    getCurrentUser: builder.query({
+      query: () => ({
+        url: "/users/me",
+        method: "GET",
+      }),
+      providesTags: ["currentUser"],
+    }),
     signUp: builder.mutation({
       query: (user) => ({
         url: "/users",
@@ -37,7 +44,7 @@ export const api = createApi({
         method: "POST",
         body: {},
       }),
-      invalidatesTags: ["currentUser", "users", "todos"],
+      invalidatesTags: ["currentUser", "todos"],
     }),
     getTodos: builder.query({
       query: () => ({
@@ -81,6 +88,7 @@ export const api = createApi({
 });
 
 export const {
+  useGetCurrentUserQuery,
   useSignUpMutation,
   useSignInMutation,
   useSignOutMutation,

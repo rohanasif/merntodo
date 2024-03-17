@@ -8,7 +8,7 @@ const App = () => {
   return (
     <div className="w-full h-screen flex flex-col">
       <NavBar />
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center w-full h-[70vh]">
         <Routes>
           <Route element={<PrivateRoutes />}>
             <Route path="/" element={<Todos />} />

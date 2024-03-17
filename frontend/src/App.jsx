@@ -6,9 +6,9 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 const App = () => {
   return (
-    <div className="w-full h-screen flex flex-col">
+    <div className="w-full h-screen flex flex-col gap-4">
       <NavBar />
-      <div className="flex justify-center items-center w-full h-[70vh]">
+      <div className="flex justify-center w-full h-[70vh]">
         <Routes>
           <Route element={<PrivateRoutes />}>
             <Route path="/" element={<Todos />} />

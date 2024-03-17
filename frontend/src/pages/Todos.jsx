@@ -13,8 +13,11 @@ const Todos = () => {
   const [add] = useAddTodoMutation();
 
   useEffect(() => {
-    setTodos(todosData);
-    dispatch(getTodos(todosData));
+    if (todosData) {
+      const reversedTodos = [...todosData].reverse();
+      setTodos(reversedTodos);
+      dispatch(getTodos(reversedTodos));
+    }
   }, [dispatch, todosData]);
 
   const handleSubmit = (e) => {

@@ -2,7 +2,11 @@ import Todo from "../components/Todo";
 import { useEffect, useRef, useState } from "react";
 import { useGetTodosQuery } from "../slice/apiSlice";
 import { addTodo, getTodos, updateTodo } from "../slice/todosSlice";
-import { useGetCurrentUserQuery, useAddTodoMutation } from "../slice/apiSlice";
+import {
+  useGetCurrentUserQuery,
+  useAddTodoMutation,
+  useUpdateTodoMutation,
+} from "../slice/apiSlice";
 import { useDispatch } from "react-redux";
 
 const Todos = () => {
@@ -15,6 +19,7 @@ const Todos = () => {
   const { data: todosData } = useGetTodosQuery();
   const { data: currentUser } = useGetCurrentUserQuery();
   const [add] = useAddTodoMutation();
+  const [update, updateResponse] = useUpdateTodoMutation();
   const inputRef = useRef();
 
   useEffect(() => {
@@ -30,6 +35,16 @@ const Todos = () => {
     add({ title, completed: false, userId: currentUser._id });
     dispatch(addTodo({ title, completed: false }));
     setTitle("");
+  };
+
+  const handleUpdate = (e, todo) => {
+    e.preventDefault();
+    update({ ...todo, title });
+    dispatch(updateTodo({ ...todo, title }));
+    setTitle("");
+    setUpdateBtn(false);
+    setCancelBtn(false);
+    setEditBtn(true);
   };
 
   return (
@@ -50,7 +65,7 @@ const Todos = () => {
         {updateBtn && (
           <button
             className="bg-green-700 py-2 px-4 text-white rounded-xl"
-            onClick={(e) => handleUpdate(e, todo)}
+            onClick={(e) => handleUpdate(e, todos[0])} // Assuming you want to update the first todo in the list
           >
             Update
           </button>

@@ -18,13 +18,9 @@ const Todo = ({
   setCancelBtn,
 }) => {
   const [completed, setCompleted] = useState(todo.completed);
-  const [toggle, toggleResponse] = useToggleTodoMutation();
-  const [update, updateResponse] = useUpdateTodoMutation();
+  const [toggle] = useToggleTodoMutation();
   const [del] = useDeleteTodoMutation();
-
   const dispatch = useDispatch();
-
-  console.log(toggleResponse);
 
   const handleEdit = () => {
     inputRef.current.focus();
@@ -32,15 +28,6 @@ const Todo = ({
     setEditBtn(false);
     setUpdateBtn(true);
     setCancelBtn(true);
-  };
-
-  const handleUpdate = (e, todo) => {
-    console.log(todo);
-    setUpdateBtn(false);
-    setCancelBtn(false);
-    setEditBtn(true);
-    update({ ...todo, title: todo.title });
-    dispatch(updateTodo({ ...todo, title: todo.title }));
   };
 
   const handleToggle = () => {

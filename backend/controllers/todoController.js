@@ -43,7 +43,7 @@ export const updateTodo = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update a todo
+// @desc    Toggle a todo
 // @route   PUT /api/v1/todos/:id
 // @access  Public
 export const toggleTodo = asyncHandler(async (req, res) => {

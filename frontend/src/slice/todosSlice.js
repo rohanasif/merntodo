@@ -23,21 +23,19 @@ const todosSlice = createSlice({
     updateTodo: (state, action) => {
       return {
         ...state,
-        todos: state.todos.map((todo) => {
-          todo.id === action.payload.id
-            ? (todo.title = action.payload.title)
-            : todo;
-        }),
+        todos: state.todos.map((todo) =>
+          todo._id === action.payload._id ? action.payload : todo
+        ),
       };
     },
     toggleTodo: (state, action) => {
       return {
         ...state,
-        todos: state.todos.map((todo) => {
-          todo.id === action.payload.id
-            ? (todo.completed = !todo.completed)
-            : todo;
-        }),
+        todos: state.todos.map((todo) =>
+          todo._id === action.payload._id
+            ? { ...todo, completed: !todo.completed }
+            : todo
+        ),
       };
     },
     deleteTodo: (state, action) => {

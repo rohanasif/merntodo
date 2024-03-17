@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { toggleTodo, deleteTodo } from "../slice/todosSlice";
 import {
@@ -8,7 +9,7 @@ import {
 const Todo = ({ todo }) => {
   const [completed, setCompleted] = useState(false);
   const [toggle, toggleResponse] = useToggleTodoMutation();
-  const [del, delResponse] = useDeleteTodoMutation();
+  const [del] = useDeleteTodoMutation();
   const dispatch = useDispatch();
   console.log(toggleResponse);
   return (
@@ -20,8 +21,8 @@ const Todo = ({ todo }) => {
         checked={completed}
         onChange={() => {
           setCompleted(!completed);
-          toggle(todo._id);
-          dispatch(toggleTodo(todo._id));
+          toggle(todo);
+          dispatch(toggleTodo(todo));
         }}
       />
       <h3 className={completed ? "line-through" : null}>{todo.title}</h3>
@@ -44,4 +45,12 @@ const Todo = ({ todo }) => {
     </div>
   );
 };
+
+Todo.propTypes = {
+  todo: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
 export default Todo;

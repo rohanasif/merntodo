@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
 import User from "../models/userModel.js";
 import bcryptjs from "bcryptjs";
+import { validateEmail, validatePassword } from "../utils/validation.js";
 
 // @desc    Register a new user
 // @route   POST /api/users
@@ -9,19 +10,33 @@ import bcryptjs from "bcryptjs";
 export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   try {
+    // Input validation
     if (!name || !email || !password) {
       res.status(400);
       throw new Error("All fields are required");
     }
-    const exists = await User.findOne({ email: email });
+    if (!validateEmail(email)) {
+      res.status(400);
+      throw new Error("Invalid email format");
+    }
+    if (!validatePassword(password)) {
+      res.status(400);
+      throw new Error(
+        "Password should contain at least one uppercase letter, one lowercase letter, one number, and one special character, and should be at least 8 characters long."
+      );
+    }
 
+    // Check if user already exists
+    const exists = await User.findOne({ email: email });
     if (exists) {
       res.status(400);
       throw new Error("User already exists");
     }
 
+    // Hash password
     const hashedPassword = bcryptjs.hashSync(password, 10);
 
+    // Create user
     const user = await User.create({
       name,
       email,
@@ -35,6 +50,7 @@ export const registerUser = asyncHandler(async (req, res) => {
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
+        token: generateToken(user._id),
       });
     } else {
       res.status(400);
@@ -81,4 +97,12 @@ export const loginUser = asyncHandler(async (req, res) => {
       message: error.message,
     });
   }
+});
+
+// @desc    Signout the user
+// @route   POST /api/users/logout
+// @access  Public
+export const logoutUser = asyncHandler(async (req, res) => {
+  res.clearCookie("token");
+  res.json({ message: "User signed out successfully" });
 });

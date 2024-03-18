@@ -40,7 +40,7 @@ const Todos = () => {
             type="text"
             id="title"
             name="title"
-            placeholder="Type something and press Enter"
+            placeholder="Type something..."
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />

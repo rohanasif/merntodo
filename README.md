@@ -19,18 +19,18 @@ Deployment: Vercel(frontend), Render(backend).
 
 Clone the repository:
 
-git clone https://github.com/yourusername/mern-todo-list.git
-cd mern-todo-list
+git clone https://github.com/rohanasif/merntodo.git
+cd merntodo
 Install dependencies for both frontend and backend:
 
 # Install backend dependencies
 
-cd backend
+cd to the root directory
 npm install
 
 # Install frontend dependencies
 
-cd ../frontend
+cd /frontend
 npm install
 
 # Set up environment variables:

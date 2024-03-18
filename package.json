@@ -6,9 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node backend/server",
-    "server": "nodemon backend/server",
-    "data:import": "node backend/seeder",
-    "data:destroy": "node backend/seeder -d"
+    "server": "nodemon backend/server"
   },
   "keywords": [],
   "author": "",

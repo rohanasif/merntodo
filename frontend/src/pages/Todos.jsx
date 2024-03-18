@@ -1,27 +1,18 @@
 import Todo from "../components/Todo";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetTodosQuery } from "../slice/apiSlice";
-import { addTodo, getTodos, updateTodo } from "../slice/todosSlice";
-import {
-  useGetCurrentUserQuery,
-  useAddTodoMutation,
-  useUpdateTodoMutation,
-} from "../slice/apiSlice";
+import { addTodo, getTodos } from "../slice/todosSlice";
+import { useGetCurrentUserQuery, useAddTodoMutation } from "../slice/apiSlice";
 import { useDispatch } from "react-redux";
 
 const Todos = () => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [todos, setTodos] = useState([]);
-  const [updateBtn, setUpdateBtn] = useState(false);
-  const [cancelBtn, setCancelBtn] = useState(false);
-  const [editBtn, setEditBtn] = useState(true);
+
   const { data: todosData } = useGetTodosQuery();
   const { data: currentUser } = useGetCurrentUserQuery();
   const [add] = useAddTodoMutation();
-  const [update, updateResponse] = useUpdateTodoMutation();
-  const inputRef = useRef();
-
   useEffect(() => {
     if (todosData) {
       const reversedTodos = [...todosData].reverse();
@@ -37,21 +28,14 @@ const Todos = () => {
     setTitle("");
   };
 
-  const handleUpdate = (e, todo) => {
-    e.preventDefault();
-    update({ ...todo, title });
-    dispatch(updateTodo({ ...todo, title }));
-    setTitle("");
-    setUpdateBtn(false);
-    setCancelBtn(false);
-    setEditBtn(true);
-  };
-
   return (
     <div className="flex flex-col gap-4 p-4">
       {todos && todos.length === 0 && <p>No todos yet!</p>}
       <div className="flex items-center">
-        <form onSubmit={handleAdd}>
+        <form
+          className="flex items-center gap-3 flex-wrap"
+          onSubmit={handleAdd}
+        >
           <input
             type="text"
             id="title"
@@ -59,30 +43,11 @@ const Todos = () => {
             placeholder="Type something and press Enter"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            ref={inputRef}
           />
+          <button className="bg-green-700 py-2 px-4 text-white rounded-xl">
+            Add
+          </button>
         </form>
-        {updateBtn && (
-          <button
-            className="bg-green-700 py-2 px-4 text-white rounded-xl"
-            onClick={(e) => handleUpdate(e, todos[0])} // Assuming you want to update the first todo in the list
-          >
-            Update
-          </button>
-        )}
-        {cancelBtn && (
-          <button
-            className="bg-red-700 py-2 px-4 text-white rounded-xl"
-            onClick={() => {
-              setTitle("");
-              setUpdateBtn(false);
-              setCancelBtn(false);
-              setEditBtn(true);
-            }}
-          >
-            Cancel
-          </button>
-        )}
       </div>
       {todos &&
         todos.length > 0 &&
@@ -91,12 +56,8 @@ const Todos = () => {
             <Todo
               key={todo._id}
               todo={todo}
-              inputRef={inputRef}
+              title={title}
               setTitle={setTitle}
-              setUpdateBtn={setUpdateBtn}
-              editBtn={editBtn}
-              setEditBtn={setEditBtn}
-              setCancelBtn={setCancelBtn}
             />
           );
         })}

@@ -55,7 +55,6 @@ export const toggleTodo = asyncHandler(async (req, res) => {
     todo.title = req.body.title;
     todo.completed = !todo.completed;
     const updatedTodo = await todo.save();
-    console.log(updatedTodo);
     res.status(201).json(updatedTodo);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -69,7 +68,6 @@ export const deleteTodo = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
     const deletedTodo = await Todo.findByIdAndDelete(id);
-    console.log(deletedTodo);
     res.status(201).json(deletedTodo);
   } catch (error) {
     res.status(400).json({ message: error.message });

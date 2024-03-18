@@ -8,7 +8,7 @@ const App = () => {
   return (
     <div className="w-full h-screen flex flex-col gap-4">
       <NavBar />
-      <div className="flex justify-center w-full h-[70vh]">
+      <div className="flex justify-center w-full">
         <Routes>
           <Route element={<PrivateRoutes />}>
             <Route path="/" element={<Todos />} />

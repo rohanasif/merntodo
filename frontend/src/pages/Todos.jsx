@@ -55,14 +55,7 @@ const Todos = () => {
       {todos &&
         todos.length > 0 &&
         todos.map((todo) => {
-          return (
-            <Todo
-              key={todo._id}
-              todo={todo}
-              title={title}
-              setTitle={setTitle}
-            />
-          );
+          return <Todo key={todo._id} todo={todo} />;
         })}
     </div>
   );

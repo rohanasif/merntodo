@@ -8,18 +8,16 @@ import { useDispatch } from "react-redux";
 const Todos = () => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
-  const [todos, setTodos] = useState([]);
-
-  const { data: todosData } = useGetTodosQuery();
+  const { data: todos } = useGetTodosQuery();
   const { data: currentUser } = useGetCurrentUserQuery();
   const [add] = useAddTodoMutation();
+
   useEffect(() => {
-    if (todosData) {
-      const reversedTodos = [...todosData].reverse();
-      setTodos(reversedTodos);
+    if (todos) {
+      const reversedTodos = [...todos].reverse();
       dispatch(getTodos(reversedTodos));
     }
-  }, [dispatch, todosData]);
+  }, [dispatch, todos]);
 
   const handleAdd = (e) => {
     e.preventDefault();

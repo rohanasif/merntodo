@@ -1,8 +1,11 @@
 import Todo from "../components/Todo";
-import { useEffect, useState } from "react";
-import { useGetTodosQuery } from "../slice/apiSlice";
-import { addTodo, getTodos } from "../slice/todosSlice";
-import { useGetCurrentUserQuery, useAddTodoMutation } from "../slice/apiSlice";
+import { useState } from "react";
+import { addTodo } from "../slice/todosSlice";
+import {
+  useGetTodosQuery,
+  useGetCurrentUserQuery,
+  useAddTodoMutation,
+} from "../slice/apiSlice";
 import { useDispatch } from "react-redux";
 
 const Todos = () => {
@@ -11,13 +14,6 @@ const Todos = () => {
   const { data: todos } = useGetTodosQuery();
   const { data: currentUser } = useGetCurrentUserQuery();
   const [add] = useAddTodoMutation();
-
-  useEffect(() => {
-    if (todos) {
-      const reversedTodos = [...todos].reverse();
-      dispatch(getTodos(reversedTodos));
-    }
-  }, [dispatch, todos]);
 
   const handleAdd = (e) => {
     e.preventDefault();

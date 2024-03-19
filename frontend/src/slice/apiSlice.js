@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 
 export const api = createApi({
   reducerPath: "api",
-  tagTypes: ["currentUser", "todos"],
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4000/api/v1/",
     prepareHeaders: (headers) => {
@@ -14,13 +13,13 @@ export const api = createApi({
       return headers;
     },
   }),
+  tagTypes: ["todos"],
   endpoints: (builder) => ({
     getCurrentUser: builder.query({
       query: () => ({
         url: "/users/me",
         method: "GET",
       }),
-      providesTags: ["currentUser"],
     }),
     signUp: builder.mutation({
       query: (user) => ({
@@ -28,7 +27,7 @@ export const api = createApi({
         method: "POST",
         body: user,
       }),
-      invalidatesTags: ["todos", "currentUser"],
+      invalidatesTags: ["todos"],
     }),
     signIn: builder.mutation({
       query: (user) => ({
@@ -36,7 +35,7 @@ export const api = createApi({
         method: "POST",
         body: user,
       }),
-      invalidatesTags: ["todos", "currentUser"],
+      invalidatesTags: ["todos"],
     }),
     signOut: builder.mutation({
       query: () => ({
@@ -44,7 +43,7 @@ export const api = createApi({
         method: "POST",
         body: {},
       }),
-      invalidatesTags: ["currentUser", "todos"],
+      invalidatesTags: ["todos"],
     }),
     getTodos: builder.query({
       query: () => ({
